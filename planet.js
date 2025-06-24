@@ -1,4 +1,7 @@
 const baseUrl = `http://localhost:9001/api`;
+let nameH1;
+let filmsUl;
+let charactersUl;
 
 
 addEventListener('DOMContentLoaded', () => {
@@ -15,8 +18,8 @@ async function getPlanet(id) {
     let planet;
     try {
         planet = await fetchPlanet(id)
-        planet.characters = await fetchCharacters(planet)
-        planet.films = await fetchFilms(planet)
+        planet.characters = await fetchCharacters(id)
+        planet.films = await fetchFilms(id)
     }
     catch (ex) {
         console.error(`Error reading planet ${id} data.`, ex.message);
@@ -31,15 +34,15 @@ async function fetchPlanet(id) {
       .then(res => res.json())
 }
 
-async function fetchFilms(planet) {
-    const url = `${baseUrl}/planets/${planet?.id}/films`;
+async function fetchFilms(id) {
+    const url = `${baseUrl}/planets/${id}/films`;
     const films = await fetch(url)
       .then(res => res.json())
     return films;
 }
 
-async function fetchCharacters(planet) {
-    const url = `${baseUrl}/planets/${planet?.id}/characters`;
+async function fetchCharacters(id) {
+    const url = `${baseUrl}/planets/${id}/characters`;
     const characters = await fetch(url)
       .then(res => res.json())
     return characters;
